@@ -1,11 +1,19 @@
 FROM python:3.11-slim
 
+# Устанавливаем рабочую директорию
 WORKDIR /app
 
-RUN pip install -r requirements.txt
+# Копируем requirements.txt в контейнер
+COPY requirements.txt ./
 
-COPY  /backend ./
+# Устанавливаем зависимости
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Копируем весь код из backend в контейнер
+COPY backend/ ./
+
+# Открываем порт для доступа
 EXPOSE 8080
 
+# Запускаем приложение
 CMD ["python", "backend/main.py"]
